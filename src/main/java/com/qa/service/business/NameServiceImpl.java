@@ -14,38 +14,37 @@ public class NameServiceImpl implements NameServiceable {
 
 	@Autowired
 	private NameRepoable repo;
-	
+
 	@Autowired
 	private APICaller caller;
-	
+
 	@Override
 	public void setRepo(NameRepoable persist) {
 		this.repo = persist;
 	}
-	
+
 	@Override
 	public Iterable<Name> getAll() {
 		return repo.findAll();
 	}
-	
+
 	@Override
 	public Name add(Name name) {
-		name.setActualName(caller.getBabyName());
+		name.setActualName(caller.getBabyName(name.getLengthOfName(),name.getNameStartingWith()));
 		caller.persist(name);
 		return repo.save(name);
 	}
-	
+
 	@Override
 	public void delete(Long id) {
 		repo.deleteById(id);
 	}
-	
+
 	@Override
 	public Optional<Name> get(Long id) {
 		return repo.findById(id);
 	}
-	
-	
+
 	@Override
 	public void update(Long id, String name) {
 		String existance = repo.getOne(id).getActualName();
@@ -53,7 +52,6 @@ public class NameServiceImpl implements NameServiceable {
 			existance.replaceAll(existance, name);
 		}
 	}
-	//Not sure that this update function actually works!!!!!
-	
- 	
+	// Not sure that this update function actually works!!!!!
+
 }

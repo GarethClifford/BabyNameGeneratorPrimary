@@ -1,10 +1,11 @@
-package com.qa.BabyNamePrimaryAPI;
+package com.qa;
 
 import javax.jms.ConnectionFactory;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
@@ -14,18 +15,11 @@ import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootApplication
 @EnableJms
+@SpringBootApplication
 public class BabyNamePrimaryApiApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(BabyNamePrimaryApiApplication.class, args);
-	}
 
-	@Bean
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
 	
 	@Bean
 	public JmsListenerContainerFactory<?> myFactory(ConnectionFactory connectionFactory,
@@ -41,5 +35,14 @@ public class BabyNamePrimaryApiApplication {
 		converter.setTargetType(MessageType.TEXT);
 		converter.setTypeIdPropertyName("_type");
 		return converter;
+	}
+	
+	@Bean
+	public RestTemplate restTemplate(RestTemplateBuilder builder) {
+		return builder.build();
+	}
+
+	public static void main(String[] args) {
+		SpringApplication.run(BabyNamePrimaryApiApplication.class, args);
 	}
 }

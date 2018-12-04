@@ -1,14 +1,20 @@
 package com.qa.persistence.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+@Entity
 public class Name {
 
 	@Id
+	@GeneratedValue
 	private Long idNumber;
 	private String nameStartingWith;
 	private Long lengthOfName;
+
 	private String actualName;
+
 
 	public String getActualName() {
 		return actualName;
@@ -19,6 +25,11 @@ public class Name {
 	}
 
 	public Name() {
+	}
+	
+	public Name(String nameStartingWith, Long lengthOfName) {
+		this.nameStartingWith = nameStartingWith;
+		this.lengthOfName = lengthOfName;
 	}
 
 	public Long getIdNumber() {
